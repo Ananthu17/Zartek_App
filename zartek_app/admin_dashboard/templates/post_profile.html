@@ -1,0 +1,88 @@
+{% extends "index.html" %}
+
+{% block title %}Dashboard{% endblock %}
+
+{% block navbar_title %}Post Details{% endblock %}
+
+{% block link %} <a href="{% url 'home' %}">Back</a>{% endblock %}
+
+{% block content %}
+    <div class="row mt-4">
+        <div class="col-8"></div>
+        <div class="col-4 ">
+            <div class="row ">
+                <div class="card bg-info text-white mr-3">
+                    <div class="card-header text-center">
+                        <h6>Total Likes <i class=" far fa-thumbs-up"></i></h6>
+                    </div>
+                    <div class="card-body text-center">
+                        <h5>{{likes}}</h5>
+                    </div>
+                </div>
+                <div class="card bg-danger text-white">
+                    <div class="card-header text-center">
+                        <h6>Total DisLikes <i class=" far fa-thumbs-down"></i></h6>
+                    </div>
+                    <div class="card-body text-center">
+                        <h5>{{dislikes}}</h5>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="row">
+        <div class="col-12">
+            <div class="card-user p-3">
+                <div class="card-body">
+                    <div class="image">
+                        <img class="border mb-3" src="/media/{{post.images}}" alt="{{post.description}}" >
+                        <hr>
+                    </div>
+                  <div class="author mt-3">
+                    <a href="#">
+                      <h3 class="title">{{post.description}}</h3>
+                    </a>
+                    <a href="#">
+                        <h5 class="text-secondary">Tags :</h5>
+                      </a>
+                    <p class="description text-info font-weight-bold">
+                        {% for tag in tags %}
+                            #{{tag}}
+                        {% endfor %}
+                    </p>
+                    <form action="{% url 'add_tag' post.id %}" method="POST" enctype="multipart/form-data">
+                        {% csrf_token%}
+                        <div class="pl-5 pr-5 pt-5">
+                            <input type="text" name="tags" class="form-control" placeholder="Add tags">
+                        </div>
+                        <div><Button type="submit" class="btn btn-success width-lg shadow"><i class="nc-icon nc-simple-add mr-1"></i>Add</Button></div>
+                    </form>
+                  </div>
+                </div>
+                <hr class="mb-4">
+              </div>
+        </div>
+    </div>
+    
+        
+    
+        
+    
+
+
+
+    <!-- jquery  -->
+    <script
+        src="https://code.jquery.com/jquery-2.2.4.js"
+        integrity="sha256-iT6Q9iMJYuQiMWNd9lDyBUStIq/8PuOW33aOqmvFpqI="
+        crossorigin="anonymous">
+    </script>
+    <!-- File upload -->
+    <script>
+        $(".custom-file-input").on("change", function() {
+          var fileName = $(this).val().split("\\").pop();
+          $(this).siblings(".custom-file-label").addClass("selected").html(fileName);
+        });
+    </script>
+    
+{% endblock %}

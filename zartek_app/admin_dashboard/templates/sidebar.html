@@ -1,0 +1,31 @@
+{% load static %}
+<div class="sidebar" data-color="white" data-active-color="danger">
+    <div class="logo ml-3">
+        <a href="javascript:void(0)" class="simple-text logo-mini">
+          <div class="logo-image-small">
+            <img src="{% static 'assets/img/logo-small.png' %}">
+            
+          </div>
+        </a>
+        <a href="javascript:void(0)" class="simple-text logo-normal mr-3">
+            <h5>Admin</h5>
+        </a>
+    </div>
+    <div class="sidebar-wrapper">
+      <ul class="nav">
+        <li  id="li1 " class="active">
+            <a href="{% url 'home' %}">
+              <i class="nc-icon nc-image"></i>
+              <p>Post Management</p>
+            </a>
+        </li>
+        <li  id="li1 " >
+          <a href="">
+            <i class="nc-icon nc-circle-10"></i>
+            <p>User Management</p>
+          </a>
+        </li>
+      </ul>
+    </div>
+  </div>
+  

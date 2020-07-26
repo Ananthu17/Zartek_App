@@ -1,0 +1,141 @@
+{% extends "index.html" %}
+
+{% block title %}Dashboard{% endblock %}
+
+{% block navbar_title %}Post Management{% endblock %}
+
+{% block content %}
+
+    {% for message in messages %}
+    <div class="input-group" id="msg">
+        <div class="input-group-prepend">
+            <h3><i class="nc-icon nc-bell-55 text-success ml-3 mt-2"></i></h3>
+        </div>
+        <span class="text-success font-weight-bold ml-2 mt-3">{{message}}</span>
+    </div>   
+    {% endfor %}
+
+    <div class="table-responsive p-3">
+        <div class="pb-4">
+            <button class="btn btn-success btn-sm  float-right mr-5" data-toggle="modal" data-target="#exampleModal"> <i class="nc-icon nc-simple-add mr-1"></i>Add</button>
+        </div>
+        <table class="table ml-2 mt-5">
+            <tr>
+                <th>Id</th>
+                <th>Description</th>
+                <th>Edit</th>
+                <th>Delete</th>
+            </tr>
+            {% for post in post %}
+            <tr>
+                <td>{{post.id}}</td>
+                <td>{{post.description}}</td>
+                <td><h6 class="ml-2"><a href="{% url 'view_record' post.id %}" class="text-danger"><i class="nc-icon nc-settings"></i></a></h6</td>
+                <td><h6 class="ml-2"><a href="javascript:void(0)" class="text-danger" data-toggle="modal" data-target="#myModal{{post.id}}"><i class="nc-icon nc-simple-remove"></i></a></h6</td>
+            </tr>
+            <!-- Modal Delete -->
+            <div id="myModal{{post.id}}" class="modal fade">
+                <div class="modal-dialog modal-confirm">
+                    <div class="modal-content">
+                        <div class="modal-header">
+                            <div class="row " style="margin-left: 120px;">
+                                <div class="icon-box">
+                                    <i class="fas fa-times"></i>
+                                </div>	
+                            </div>
+                            <div class="row">
+                            </div>
+                            <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+                        </div>
+                        <div class="modal-body">
+                            <h4 class="mb-3 mt-0">Are you sure?</h4>
+                            <p>Do you really want to delete these records? This process cannot be undone.</p>
+                        </div>
+                        <div class="modal-footer row" style="padding: 33px 64px 30px;">
+                            <button type="button" class="btn btn-info" data-dismiss="modal">Cancel</button>
+                            <a href="{% url 'delete' post.id %}" class="btn btn-danger text-white pt-2">Delete</a>
+                        </div>
+                    </div>
+                </div>
+            </div>  
+            <!-- delete modal end  -->
+            {% endfor %}
+            
+        </table>
+    </div>
+
+    
+
+    <!-- Modal Add Post-->
+    <div class="modal fade" id="exampleModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+        <div class="modal-dialog" role="document">
+        <div class="modal-content">
+            <form action="{% url 'home' %}" method="POST" enctype="multipart/form-data">
+                {% csrf_token %}
+                <div class="modal-header">
+                    <h5 class="modal-title" id="exampleModalLabel">Add Post</h5>
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                        <span aria-hidden="true">&times;</span>
+                    </button>
+                </div>
+                <div class="modal-body">
+                    <!-- {{form.as_p}} -->
+                    <div class="row p-2">
+                        <span class="mb-1">Images :</span> 
+                        <div class="custom-file">
+                          {{ form.images }}
+                          <label class="custom-file-label" for="customFile">Choose file</label>
+                        </div>
+                      </div>
+                    <div class="row p-2">
+                        <span class="mb-1">Description :</span> 
+                        {{ form.description }}
+                    </div>
+                    <div class="row p-2">
+                        <span class="mb-1">Tags :</span> 
+                        {{ form.tags }}
+                    </div>
+                </div>
+                <div class="modal-footer">
+                    <button type="submit" class="btn btn-primary btn-sm">Add</button>
+                </div>
+            </form>
+        </div>
+        </div>
+    </div>
+    <!-- end modal  -->
+
+    <!-- jquery  -->
+    <script
+        src="https://code.jquery.com/jquery-2.2.4.js"
+        integrity="sha256-iT6Q9iMJYuQiMWNd9lDyBUStIq/8PuOW33aOqmvFpqI="
+        crossorigin="anonymous">
+    </script>
+    
+    <script src="https://cdn.jsdelivr.net/npm/select2@4.1.0-beta.1/dist/js/select2.min.js"></script>
+    <!-- select 2 -->
+    <script>
+        $(document).ready(function() {
+            $('.js-example-basic-multiple').select2();
+        });
+    </script>
+    <!-- File upload -->
+    <script>
+        $(".custom-file-input").on("change", function() {
+          var fileName = $(this).val().split("\\").pop();
+          $(this).siblings(".custom-file-label").addClass("selected").html(fileName);
+        });
+    </script>
+    <script>
+        $(document).ready(function() {
+            $('#id_images').attr('accept','');
+        });
+    </script>
+    <script>
+        $(document).ready(() => {
+          setTimeout(()=>{
+            $('#msg').addClass('d-none');
+          }, 2000);
+        })
+      </script>
+{% endblock %}
